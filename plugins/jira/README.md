@@ -62,6 +62,7 @@ echo "https://jira.atlassian.com" >> .jira-url
 * `$JIRA_NAME` - Your JIRA username; used as the default user for `assigned`/`reported` searches
 * `$JIRA_PREFIX` - Prefix added to issue ID arguments
 * `$JIRA_RAPID_BOARD` - Set to `true` if you use Rapid Board
+* `$JIRA_RAPID_VIEW` - Set to the Rapid Board - Rapid View ID of your desired board if you use multiple rapid boards
 * `$JIRA_DEFAULT_ACTION` - Action to do when `jira` is called with no arguments; defaults to "new"
 
 

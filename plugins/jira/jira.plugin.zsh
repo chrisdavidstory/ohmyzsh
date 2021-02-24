@@ -38,6 +38,15 @@ function jira() {
     jira_prefix=""
   fi
 
+  if [[ -f .jira-rapid-view ]]; then
+    jira_rapid_view=$(cat .jira-rapid-view)
+  elif [[ -f ~/.jira-rapid-view ]]; then
+    jira_rapid_view=$(cat ~/.jira-rapid-view)
+  elif [[ -n "${JIRA_RAPID_VIEW}" ]]; then
+    jira_rapid_view=${JIRA_RAPID_VIEW}
+  else
+    jira_rapid_view=""
+  fi
 
   if [[ $action == "new" ]]; then
     echo "Opening new issue"
@@ -49,7 +58,9 @@ function jira() {
     open_command "${jira_url}/issues/?filter=-1"
   elif [[ "$action" == "dashboard" ]]; then
     echo "Opening dashboard"
-    if [[ "$JIRA_RAPID_BOARD" == "true" ]]; then
+    if [[ "$JIRA_RAPID_BOARD" == "true" && -n $jira_rapid_view ]]; then
+      open_command "${jira_url}/secure/RapidBoard.jspa?rapidView=${jira_rapid_view}"
+    elif [[ "$JIRA_RAPID_BOARD" == "true" ]]; then
       open_command "${jira_url}/secure/RapidBoard.jspa"
     else
       open_command "${jira_url}/secure/Dashboard.jspa"
@@ -62,6 +73,7 @@ function jira() {
     echo "JIRA_PREFIX=$jira_prefix"
     echo "JIRA_NAME=$JIRA_NAME"
     echo "JIRA_RAPID_BOARD=$JIRA_RAPID_BOARD"
+    echo "JIRA_RAPID_VIEW=$JIRA_RAPID_VIEW"
     echo "JIRA_DEFAULT_ACTION=$JIRA_DEFAULT_ACTION"
   else
     # Anything that doesn't match a special action is considered an issue name
